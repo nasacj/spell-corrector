@@ -1,3 +1,5 @@
+#!/usr/local/bin/python
+
 import re, collections
 
 def words(text): return re.findall('[a-z]+', text.lower())
@@ -6,7 +8,7 @@ def train(features):
     model = collections.defaultdict(lambda: 1)
     for f in features:
         model[f] += 1
-    print len(model)
+    #print len(model)
     return model
 
 NWORDS = train(words(file('big.txt').read()))
@@ -24,7 +26,9 @@ def edits1(word):
    print replaces
    inserts    = [a + c + b     for a, b in splits for c in alphabet]
    print inserts
-   return set(deletes + transposes + replaces + inserts)
+   ret = set(deletes + transposes + replaces + inserts)
+   print len(ret)
+   return ret
 
 def known_edits2(word):
     return set(e2 for e1 in edits1(word) for e2 in edits1(e1) if e2 in NWORDS)
